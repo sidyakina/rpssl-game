@@ -4,6 +4,8 @@ import (
 	"log"
 
 	"github.com/pkg/errors"
+
+	"github.com/sidyakin/rpssl-game/internal/gateway/app/domain"
 )
 
 type Usecase struct {
@@ -11,14 +13,14 @@ type Usecase struct {
 }
 
 type ChoicesRepo interface {
-	GetChoices() ([]Choice, error)
+	GetChoices() ([]domain.Choice, error)
 }
 
 func New(repo ChoicesRepo) *Usecase {
 	return &Usecase{repo: repo}
 }
 
-func (u *Usecase) GetChoices() ([]Choice, error) {
+func (u *Usecase) GetChoices() ([]domain.Choice, error) {
 	log.Println("getting choices")
 
 	choices, err := u.repo.GetChoices()

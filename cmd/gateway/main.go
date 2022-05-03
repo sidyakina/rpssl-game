@@ -9,7 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	getchoices "github.com/sidyakin/rpssl-game/internal/gateway/app/get/choices"
+	getchoice "github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/get-choice"
+	getchoices "github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/get-choices"
+	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/play"
 	handlerwrapper "github.com/sidyakin/rpssl-game/internal/gateway/pkg/handler-wrapper"
 )
 
@@ -20,16 +22,21 @@ func main() {
 	}
 
 	getChoicesHandler := getchoices.Setup()
+	getChoiceHandler := getchoice.Setup()
+	playHandler := play.Setup()
 
 	mux := http.NewServeMux()
+
 	mux.HandleFunc("/choices", func(writer http.ResponseWriter, request *http.Request) {
-		if request.Method != http.MethodGet {
-			writer.WriteHeader(http.StatusMethodNotAllowed)
-
-			return
-		}
-
 		handlerwrapper.Get(writer, request, "choices", getChoicesHandler.Handle)
+	})
+
+	mux.HandleFunc("/choice", func(writer http.ResponseWriter, request *http.Request) {
+		handlerwrapper.Get(writer, request, "choice", getChoiceHandler.Handle)
+	})
+
+	mux.HandleFunc("/play", func(writer http.ResponseWriter, request *http.Request) {
+		handlerwrapper.Post(writer, request, "play", playHandler.Handle)
 	})
 
 	server := http.Server{

@@ -7,8 +7,10 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/get/choices/usecase"
+	"github.com/sidyakin/rpssl-game/internal/gateway/app/domain"
 	internalerrors "github.com/sidyakin/rpssl-game/internal/gateway/pkg/internal-errors"
+
+	apigateway "github.com/sidyakin/rpssl-game/pkg/api/gateway"
 )
 
 type Handler struct {
@@ -16,7 +18,7 @@ type Handler struct {
 }
 
 type Usecase interface {
-	GetChoices() ([]usecase.Choice, error)
+	GetChoices() ([]domain.Choice, error)
 }
 
 func New(usecase Usecase) *Handler {
@@ -35,9 +37,9 @@ func (h *Handler) Handle() (response []byte, code int) {
 		return nil, http.StatusInternalServerError
 	}
 
-	choices := make([]Choice, 0, len(rawChoices))
+	choices := make([]apigateway.Choice, 0, len(rawChoices))
 	for _, rawChoice := range rawChoices {
-		choices = append(choices, Choice{ID: rawChoice.ID, Name: rawChoice.Name})
+		choices = append(choices, apigateway.Choice{ID: rawChoice.ID, Name: rawChoice.Name})
 	}
 
 	data, err := json.Marshal(choices)
