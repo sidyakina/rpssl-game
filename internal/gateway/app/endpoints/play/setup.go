@@ -1,14 +1,12 @@
 package play
 
 import (
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/play/adapters/choices"
 	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/play/request"
 	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/play/usecase"
 )
 
-func Setup() *request.Handler {
-	repo := choices.New()
-	uc := usecase.New(repo)
+func Setup(service usecase.Service) *request.Handler {
+	uc := usecase.New(service)
 
 	return request.New(uc)
 }

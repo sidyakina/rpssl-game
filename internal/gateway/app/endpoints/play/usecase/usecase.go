@@ -9,31 +9,31 @@ import (
 )
 
 type Usecase struct {
-	repo ChoicesRepo
+	service Service
 }
 
-type ChoicesRepo interface {
+type Service interface {
 	GetRandomChoice() (*domain.Choice, error)
 	Play(playerChoice, computerChoice int32) (result string, err error)
 }
 
-func New(repo ChoicesRepo) *Usecase {
-	return &Usecase{repo: repo}
+func New(service Service) *Usecase {
+	return &Usecase{service: service}
 }
 
 func (u *Usecase) Play(playerChoice int32) (*domain.PlayRoundInfo, error) {
 	log.Printf("playing game round with player choice id: %v", playerChoice)
 
-	computerChoice, err := u.repo.GetRandomChoice()
+	computerChoice, err := u.service.GetRandomChoice()
 	if err != nil {
-		return nil, errors.Wrap(err, "repo.GetRandomChoice")
+		return nil, errors.Wrap(err, "service.GetRandomChoice")
 	}
 
 	log.Printf("computer choice: %v", computerChoice)
 
-	result, err := u.repo.Play(playerChoice, computerChoice.ID)
+	result, err := u.service.Play(playerChoice, computerChoice.ID)
 	if err != nil {
-		return nil, errors.Wrap(err, "repo.Play")
+		return nil, errors.Wrap(err, "service.Play")
 	}
 
 	log.Printf("result is: %v", result)

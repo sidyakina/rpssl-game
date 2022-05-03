@@ -1,18 +1,22 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
+	"google.golang.org/grpc"
+
+	gameservice "github.com/sidyakin/rpssl-game/internal/gateway/app/adapters/game-service"
 	getchoice "github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/get-choice"
 	getchoices "github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/get-choices"
 	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/play"
 	handlerwrapper "github.com/sidyakin/rpssl-game/internal/gateway/pkg/handler-wrapper"
+	apigameservice "github.com/sidyakin/rpssl-game/pkg/api/game-service"
 )
 
 func main() {
@@ -21,9 +25,27 @@ func main() {
 		log.Panicf("failed to parse config: %v", err)
 	}
 
-	getChoicesHandler := getchoices.Setup()
-	getChoiceHandler := getchoice.Setup()
-	playHandler := play.Setup()
+	ctx, cancel := context.WithTimeout(context.Background(), config.GPPCConnectTimeout)
+	defer cancel()
+
+	gameServiceConn, err := grpc.DialContext(ctx, config.GameServiceURI)
+	if err != nil {
+		log.Panicf("failed to connect to game service")
+	}
+
+	defer func() {
+		err := gameServiceConn.Close()
+		if err != nil {
+			log.Printf("failed to close connect to game service")
+		}
+	}()
+
+	gameServiceClient := apigameservice.NewGameServiceClient(gameServiceConn)
+	gameServiceAdapter := gameservice.New(gameServiceClient, config.GRPCRequestTimeout)
+
+	getChoicesHandler := getchoices.Setup(gameServiceAdapter)
+	getChoiceHandler := getchoice.Setup(gameServiceAdapter)
+	playHandler := play.Setup(gameServiceAdapter)
 
 	mux := http.NewServeMux()
 
@@ -40,13 +62,13 @@ func main() {
 	})
 
 	server := http.Server{
-		Addr:         fmt.Sprintf(":%v", config.Port),
+		Addr:         fmt.Sprintf(":%v", config.HTTPPort),
 		Handler:      mux,
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 5 * time.Second,
+		ReadTimeout:  config.HTTPReadTimeout,
+		WriteTimeout: config.HTTPWriteTimeout,
 	}
 
-	log.Printf("starting http server on %v", config.Port)
+	log.Printf("starting http server on %v", config.HTTPPort)
 
 	go func() {
 		err := server.ListenAndServe()

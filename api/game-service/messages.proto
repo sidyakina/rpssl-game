@@ -1,0 +1,38 @@
+syntax = 'proto3';
+
+package apigameservice;
+
+service GameService {
+  rpc GetChoices(GetChoicesRequest) returns (GetChoicesResponse) {}
+  rpc GetRandomChoice(GetRandomChoiceRequest) returns (GetRandomChoiceResponse) {}
+  rpc Play(PlayRequest) returns (PlayResponse) {}
+}
+
+message Choice {
+  int32 ID = 1;
+  string Name = 2;
+}
+
+// Get Choices
+message GetChoicesRequest{}
+
+message GetChoicesResponse{
+  repeated Choice Choices = 1;
+}
+
+// Get Random Choice
+message GetRandomChoiceRequest{}
+
+message GetRandomChoiceResponse{
+  Choice Choice = 1;
+}
+
+// Play
+message PlayRequest{
+  int32 Player1ChoiceID = 1;
+  int32 Player2ChoiceID = 2;
+}
+
+message PlayResponse{
+  string Result = 1;
+}
