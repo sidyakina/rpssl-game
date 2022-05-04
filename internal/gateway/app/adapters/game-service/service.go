@@ -49,10 +49,6 @@ func (s *Service) GetRandomChoice() (*domain.Choice, error) {
 
 	response, err := s.client.GetRandomChoice(ctx, &apigameservice.GetRandomChoiceRequest{})
 	if err != nil {
-		if status.Convert(err).Message() == apigameservice.ErrNotFound.Error() {
-			return nil, internalerrors.ErrNotFound
-		}
-
 		return nil, err
 	}
 
@@ -69,10 +65,6 @@ func (s *Service) GetChoices() ([]domain.Choice, error) {
 
 	response, err := s.client.GetChoices(ctx, &apigameservice.GetChoicesRequest{})
 	if err != nil {
-		if status.Convert(err).Message() == apigameservice.ErrNotFound.Error() {
-			return nil, internalerrors.ErrNotFound
-		}
-
 		return nil, err
 	}
 

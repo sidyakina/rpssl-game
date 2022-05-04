@@ -5,11 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/pkg/errors"
-
 	"github.com/sidyakina/rpssl-game/internal/gateway/app/domain"
-	internalerrors "github.com/sidyakina/rpssl-game/internal/gateway/pkg/internal-errors"
-
 	apigateway "github.com/sidyakina/rpssl-game/pkg/api/gateway"
 )
 
@@ -29,10 +25,6 @@ func (h *Handler) Handle() (response []byte, code int) {
 	rawChoices, err := h.usecase.GetChoices()
 	if err != nil {
 		log.Printf("failed to handle get choices request: %v", err)
-
-		if errors.Cause(err) == internalerrors.ErrNotFound {
-			return nil, http.StatusNotFound
-		}
 
 		return nil, http.StatusInternalServerError
 	}

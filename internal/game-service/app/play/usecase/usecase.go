@@ -3,9 +3,8 @@ package usecase
 import (
 	"log"
 
-	"github.com/pkg/errors"
-
 	"github.com/sidyakina/rpssl-game/internal/game-service/app/domain"
+	apigameservice "github.com/sidyakina/rpssl-game/pkg/api/game-service"
 )
 
 type Usecase struct {
@@ -23,7 +22,9 @@ func (u *Usecase) Play(player1Choice, player2Choice int32) (result, message stri
 
 	result, message, err = domain.GetResult(player1Choice, player2Choice)
 	if err != nil {
-		return "", "", errors.Wrap(err, "get result")
+		log.Printf("failed to get result: %v", err)
+
+		return "", "", apigameservice.ErrWrongParameters
 	}
 
 	log.Printf("result: %v, message: %v", result, message)
