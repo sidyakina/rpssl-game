@@ -53,6 +53,6 @@ func GetResult(player1ChoiceID, player2ChoiceID int32) (result, message string, 
 	return Tie, "", nil
 }
 
-func formatMessage(wonPlayerChoice, losePlayerChoice, action string) string {
-	return fmt.Sprintf("%v %v %v", wonPlayerChoice, action, losePlayerChoice)
+func formatMessage(wonPlayerChoice, lostPlayerChoice, action string) string {
+	return fmt.Sprintf("%v %v %v", wonPlayerChoice, action, lostPlayerChoice)
 }
