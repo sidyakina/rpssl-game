@@ -10,6 +10,7 @@ import (
 	"syscall"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	gameservice "github.com/sidyakina/rpssl-game/internal/gateway/app/adapters/game-service"
 	getchoice "github.com/sidyakina/rpssl-game/internal/gateway/app/endpoints/get-choice"
@@ -28,15 +29,19 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), config.GPPCConnectTimeout)
 	defer cancel()
 
-	gameServiceConn, err := grpc.DialContext(ctx, config.GameServiceURI)
+	gameServiceConn, err := grpc.DialContext(
+		ctx,
+		config.GameServiceURI,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
 	if err != nil {
-		log.Panicf("failed to connect to game service")
+		log.Panicf("failed to connect to game service: %v", err)
 	}
 
 	defer func() {
 		err := gameServiceConn.Close()
 		if err != nil {
-			log.Printf("failed to close connect to game service")
+			log.Printf("failed to close connect to game service: %v", err)
 		}
 	}()
 

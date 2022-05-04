@@ -22,6 +22,8 @@ func main() {
 		log.Panicf("failed to parse config: %v", err)
 	}
 
+	log.Printf("listening on %v port", config.GRPCPort)
+
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%v", config.GRPCPort))
 	if err != nil {
 		log.Panicf("failed to listen: %v", err)

@@ -46,7 +46,7 @@ func (h *Handler) Handle(rawRequest []byte) (response []byte, code int) {
 	}
 
 	rawResponse := apigateway.PlayResponse{
-		Result:         info.Result,
+		Results:        info.Result,
 		PlayerChoice:   info.PlayerChoice,
 		ComputerChoice: info.ComputerChoice,
 	}
