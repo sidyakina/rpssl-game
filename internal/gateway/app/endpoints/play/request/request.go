@@ -7,10 +7,10 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/domain"
-	internalerrors "github.com/sidyakin/rpssl-game/internal/gateway/pkg/internal-errors"
+	"github.com/sidyakina/rpssl-game/internal/gateway/app/domain"
+	internalerrors "github.com/sidyakina/rpssl-game/internal/gateway/pkg/internal-errors"
 
-	apigateway "github.com/sidyakin/rpssl-game/pkg/api/gateway"
+	apigateway "github.com/sidyakina/rpssl-game/pkg/api/gateway"
 )
 
 type Handler struct {

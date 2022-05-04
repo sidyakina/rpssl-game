@@ -1,8 +1,8 @@
 package play
 
 import (
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/play/request"
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/play/usecase"
+	"github.com/sidyakina/rpssl-game/internal/gateway/app/endpoints/play/request"
+	"github.com/sidyakina/rpssl-game/internal/gateway/app/endpoints/play/usecase"
 )
 
 func Setup(service usecase.Service) *request.Handler {

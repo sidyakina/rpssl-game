@@ -11,12 +11,12 @@ import (
 
 	"google.golang.org/grpc"
 
-	gameservice "github.com/sidyakin/rpssl-game/internal/gateway/app/adapters/game-service"
-	getchoice "github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/get-choice"
-	getchoices "github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/get-choices"
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/play"
-	handlerwrapper "github.com/sidyakin/rpssl-game/internal/gateway/pkg/handler-wrapper"
-	apigameservice "github.com/sidyakin/rpssl-game/pkg/api/game-service"
+	gameservice "github.com/sidyakina/rpssl-game/internal/gateway/app/adapters/game-service"
+	getchoice "github.com/sidyakina/rpssl-game/internal/gateway/app/endpoints/get-choice"
+	getchoices "github.com/sidyakina/rpssl-game/internal/gateway/app/endpoints/get-choices"
+	"github.com/sidyakina/rpssl-game/internal/gateway/app/endpoints/play"
+	handlerwrapper "github.com/sidyakina/rpssl-game/internal/gateway/pkg/handler-wrapper"
+	apigameservice "github.com/sidyakina/rpssl-game/pkg/api/game-service"
 )
 
 func main() {

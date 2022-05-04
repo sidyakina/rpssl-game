@@ -1,8 +1,8 @@
 package getchoices
 
 import (
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/get-choices/request"
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/endpoints/get-choices/usecase"
+	"github.com/sidyakina/rpssl-game/internal/gateway/app/endpoints/get-choices/request"
+	"github.com/sidyakina/rpssl-game/internal/gateway/app/endpoints/get-choices/usecase"
 )
 
 func Setup(repo usecase.ChoicesRepo) *request.Handler {

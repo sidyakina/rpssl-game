@@ -5,7 +5,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/domain"
+	"github.com/sidyakina/rpssl-game/internal/gateway/app/domain"
 )
 
 type Usecase struct {

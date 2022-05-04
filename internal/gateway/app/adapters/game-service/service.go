@@ -8,9 +8,9 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"
 
-	"github.com/sidyakin/rpssl-game/internal/gateway/app/domain"
-	internalerrors "github.com/sidyakin/rpssl-game/internal/gateway/pkg/internal-errors"
-	apigameservice "github.com/sidyakin/rpssl-game/pkg/api/game-service"
+	"github.com/sidyakina/rpssl-game/internal/gateway/app/domain"
+	internalerrors "github.com/sidyakina/rpssl-game/internal/gateway/pkg/internal-errors"
+	apigameservice "github.com/sidyakina/rpssl-game/pkg/api/game-service"
 )
 
 type Service struct {
@@ -29,7 +29,6 @@ type Client interface {
 	) (
 		*apigameservice.GetChoicesResponse, error,
 	)
-
 	Play(
 		ctx context.Context, request *apigameservice.PlayRequest, opts ...grpc.CallOption,
 	) (
