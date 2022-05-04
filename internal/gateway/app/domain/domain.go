@@ -7,6 +7,7 @@ type Choice struct {
 
 type PlayRoundInfo struct {
 	Result         string
+	Message        string
 	PlayerChoice   int32
 	ComputerChoice int32
 }

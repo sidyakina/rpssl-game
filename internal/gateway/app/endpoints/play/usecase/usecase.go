@@ -14,7 +14,7 @@ type Usecase struct {
 
 type Service interface {
 	GetRandomChoice() (*domain.Choice, error)
-	Play(playerChoice, computerChoice int32) (result string, err error)
+	Play(playerChoice, computerChoice int32) (result, message string, err error)
 }
 
 func New(service Service) *Usecase {
@@ -31,7 +31,7 @@ func (u *Usecase) Play(playerChoice int32) (*domain.PlayRoundInfo, error) {
 
 	log.Printf("computer choice: %v", computerChoice)
 
-	result, err := u.service.Play(playerChoice, computerChoice.ID)
+	result, message, err := u.service.Play(playerChoice, computerChoice.ID)
 	if err != nil {
 		return nil, errors.Wrap(err, "service.Play")
 	}
@@ -40,6 +40,7 @@ func (u *Usecase) Play(playerChoice int32) (*domain.PlayRoundInfo, error) {
 
 	info := &domain.PlayRoundInfo{
 		Result:         result,
+		Message:        message,
 		PlayerChoice:   playerChoice,
 		ComputerChoice: computerChoice.ID,
 	}

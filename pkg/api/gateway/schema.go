@@ -11,6 +11,7 @@ type PlayRequest struct {
 
 type PlayResponse struct {
 	Results        string `json:"results"`
+	Message        string `json:"message"`
 	PlayerChoice   int32  `json:"player"`
 	ComputerChoice int32  `json:"computer"`
 }

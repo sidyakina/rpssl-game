@@ -35,4 +35,5 @@ message PlayRequest{
 
 message PlayResponse{
   string Result = 1;
+  string Message = 2;
 }

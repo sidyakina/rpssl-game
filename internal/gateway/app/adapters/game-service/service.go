@@ -91,7 +91,7 @@ func (s *Service) GetChoices() ([]domain.Choice, error) {
 	return choices, nil
 }
 
-func (s *Service) Play(playerChoice, computerChoice int32) (result string, err error) {
+func (s *Service) Play(playerChoice, computerChoice int32) (result, message string, err error) {
 	ctx, cancel := context.WithTimeout(context.Background(), s.timeout)
 	defer cancel()
 
@@ -103,11 +103,11 @@ func (s *Service) Play(playerChoice, computerChoice int32) (result string, err e
 	response, err := s.client.Play(ctx, request)
 	if err != nil {
 		if status.Convert(err).Message() == apigameservice.ErrWrongParameters.Error() {
-			return "", internalerrors.ErrWrongParameters
+			return "", "", internalerrors.ErrWrongParameters
 		}
 
-		return "", err
+		return "", "", err
 	}
 
-	return response.Result, nil
+	return response.Result, response.Message, nil
 }

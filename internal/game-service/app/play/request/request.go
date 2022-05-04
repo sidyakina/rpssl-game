@@ -12,7 +12,7 @@ type Handler struct {
 }
 
 type Usecase interface {
-	Play(player1Choice, player2Choice int32) (result string, err error)
+	Play(player1Choice, player2Choice int32) (result, message string, err error)
 }
 
 func New(usecase Usecase) *Handler {
@@ -26,14 +26,14 @@ func (h *Handler) Play(
 ) {
 	log.Printf("new play request: %+v", request)
 
-	result, err := h.usecase.Play(request.Player1ChoiceID, request.Player2ChoiceID)
+	result, message, err := h.usecase.Play(request.Player1ChoiceID, request.Player2ChoiceID)
 	if err != nil {
 		log.Printf("failed to handle play request: %v", err)
 
 		return nil, apigameservice.ErrInternal
 	}
 
-	response := &apigameservice.PlayResponse{Result: result}
+	response := &apigameservice.PlayResponse{Result: result, Message: message}
 
 	log.Printf("play response: %+v", response)
 
